@@ -6,10 +6,6 @@ services:
     dockerfilePath: apps/api/Dockerfile
     autoDeploy: true
     healthCheckPath: /health
-    disk:
-      name: edurecap-data
-      mountPath: /data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
@@ -20,7 +16,7 @@ services:
       - key: DATABASE_URL
         value: postgresql://neondb_owner:npg_mQK60qwZGFib@ep-cool-block-ah3weig3-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       - key: LOCAL_STORAGE_DIR
-        value: /data/storage
+        value: /tmp/storage
       - key: MOCK_AI
         value: "false"
       - key: MAX_UPLOAD_MB
@@ -31,8 +27,6 @@ services:
         value: https://REPLACE_WITH_SUMMARIZER_URL
       - key: IMAGEGEN_URL
         value: https://REPLACE_WITH_IMAGEGEN_URL
-    startCommand: >-
-      sh -c "mkdir -p /data/storage && npx prisma migrate deploy && node --enable-source-maps dist/index.js"
 
   - name: transcriber
     type: web
@@ -44,8 +38,6 @@ services:
       - key: PORT
         value: 8000
     healthCheckPath: /docs
-    startCommand: >-
-      sh -c "uvicorn main:app --host 0.0.0.0 --port $PORT"
 
   - name: summarizer
     type: web
@@ -57,8 +49,6 @@ services:
       - key: PORT
         value: 8001
     healthCheckPath: /docs
-    startCommand: >-
-      sh -c "uvicorn main:app --host 0.0.0.0 --port $PORT"
 
   - name: imagegen
     type: web
@@ -70,5 +60,3 @@ services:
       - key: PORT
         value: 8002
     healthCheckPath: /docs
-    startCommand: >-
-      sh -c "uvicorn main:app --host 0.0.0.0 --port $PORT"
