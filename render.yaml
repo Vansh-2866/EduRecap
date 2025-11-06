@@ -4,6 +4,7 @@ services:
     env: docker
     plan: free
     dockerfilePath: apps/api/Dockerfile
+    dockerContext: apps/api
     autoDeploy: true
     healthCheckPath: /health
     envVars:
@@ -33,6 +34,7 @@ services:
     env: docker
     plan: free
     dockerfilePath: services/transcriber/Dockerfile
+    dockerContext: services/transcriber
     autoDeploy: true
     envVars:
       - key: PORT
@@ -44,6 +46,7 @@ services:
     env: docker
     plan: free
     dockerfilePath: services/summarizer/Dockerfile
+    dockerContext: services/summarizer
     autoDeploy: true
     envVars:
       - key: PORT
@@ -55,6 +58,7 @@ services:
     env: docker
     plan: free
     dockerfilePath: services/imagegen/Dockerfile
+    dockerContext: services/imagegen
     autoDeploy: true
     envVars:
       - key: PORT
